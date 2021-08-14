@@ -366,7 +366,7 @@ class SegmentationPLEngineWithEyeAndLandmark(pl.LightningModule):
         class_loss_fn=nn.BCEWithLogitsLoss(),
         lamb=1,
         F_score_metrix=smp.utils.metrics.Fscore(threshold=0.5),
-        normalize = False,
+        normalize = True,
     ):
         super(SegmentationPLEngineWithEyeAndLandmark, self).__init__()
         self.face_encoder = face_encoder

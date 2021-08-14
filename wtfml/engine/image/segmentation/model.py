@@ -19,6 +19,8 @@ class FacetypeLocationGenerator(nn.Module):
             self.l1 = nn.Sequential(
                 nn.Linear(input_size, mid_layer_num),
                 nn.ReLU(),
+                nn.Linear(mid_layer_num, mid_layer_num),
+                nn.ReLU(),
                 nn.Linear(mid_layer_num, 128 * self.init_size ** 2),
             )
         self.conv_blocks = nn.Sequential(
