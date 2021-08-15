@@ -199,7 +199,7 @@ class FaceMaskDatasetWithEyeAndLandmarks(data.Dataset):
 
         target_series = self.dataframe.iloc[item]
         landmarks = rotation_landmark(target_series.copy(), mode = self.mode)
-        landmarks = torch.tensor(landmarks)
+        landmarks = torch.tensor(landmarks, dtype = torch.float)
         
         target = get_one_hot_target_for_training(target_series, sub_adjustment=0.6)
         return image,right_eye_image , left_eye_image,landmarks, mask, target
