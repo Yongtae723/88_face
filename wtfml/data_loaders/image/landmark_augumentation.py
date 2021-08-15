@@ -15,14 +15,17 @@ for point in range(468):
 columns_names = x_columns_names + y_columns_names + z_columns_names
 
 #%%
-def rotation_landmark(dataframe, max_degree = 3):
+def rotation_landmark(dataframe, max_degree = 5 , mode = "train"):
     random_degree = np.random.randn(1,3) * max_degree
     rot = Rotation.from_euler("xyz", random_degree, degrees=True)
-    for point in range(468):
-        position = list(dataframe[[f"x_{point}",f"y_{point}"]] -.5) + list(dataframe[[f"z_{point}"]])
-        dataframe[[f"x_{point}",f"y_{point}",f"z_{point}"]] = (rot.apply(position) + [.5,.5,0])[0]
-    return dataframe[columns_names]
-        
+    positions = np.stack([
+            dataframe[x_columns_names].values -.5 ,
+            dataframe[y_columns_names].values-.5 , 
+            dataframe[z_columns_names].values] , 1).astype(np.float16)
+    if mode == "train":
+        positions = rot.apply(positions)
+    return positions.flatten()
+
     
     
 # %%

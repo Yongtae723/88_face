@@ -10,8 +10,8 @@ import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 
 from wtfml.utils.utils import get_one_hot_target_for_training
-from .image_augumentation import image_augmentations, mask_augmentations
-from .landmark_augumentation import rotation_landmark
+from wtfml.data_loaders.image.image_augumentation import image_augmentations, mask_augmentations
+from wtfml.data_loaders.image.landmark_augumentation import rotation_landmark
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -198,7 +198,7 @@ class FaceMaskDatasetWithEyeAndLandmarks(data.Dataset):
         
 
         target_series = self.dataframe.iloc[item]
-        landmarks = rotation_landmark(target_series.copy())
+        landmarks = rotation_landmark(target_series.copy(), mode = self.mode)
         landmarks = torch.tensor(landmarks)
         
         target = get_one_hot_target_for_training(target_series, sub_adjustment=0.6)
